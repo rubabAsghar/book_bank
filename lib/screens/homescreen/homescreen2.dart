@@ -1,4 +1,4 @@
-import 'dart:js';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -9,6 +9,7 @@ import 'package:book_bank/screens/homescreen/favouritelist.dart';
 import 'package:flutter/material.dart';
 import 'package:book_bank/model/donation.dart';
 import '../../model/books.dart';
+import '../../model/nearme.dart';
 import 'ProductPage2.dart';
 import 'WishlistScreen.dart';
 
@@ -23,9 +24,11 @@ class homescreen2 extends StatefulWidget {
 class _homescreen2State extends State<homescreen2> {
   List<Books> books = [];
   List<Donation> donations = [];
+  List<Nearme> nearme = [];
 
   void _fetchBooks() async {
-    final querySnapshot = await FirebaseFirestore.instance.collection('Books').get();
+    final querySnapshot = await FirebaseFirestore.instance.collection('Books')
+        .get();
     List<Books> booksList = [];
     for (final document in querySnapshot.docs) {
       final book = Books.fromSnapshot(document);
@@ -36,8 +39,22 @@ class _homescreen2State extends State<homescreen2> {
     });
   }
 
+  void _fetchNearme() async {
+    final querySnapshot = await FirebaseFirestore.instance.collection('Nearme')
+        .get();
+    List<Nearme> nearmeList = [];
+    for (final document in querySnapshot.docs) {
+      final near = Nearme.fromSnapshot(document);
+      nearmeList.add(near);
+    }
+    setState(() {
+      nearme = nearmeList;
+    });
+  }
+
   void _fetchDonations() async {
-    final querySnapshot = await FirebaseFirestore.instance.collection('Donation').get();
+    final querySnapshot = await FirebaseFirestore.instance.collection(
+        'Donation ').get();
     List<Donation> donationList = [];
     for (final document in querySnapshot.docs) {
       final donation = Donation.fromSnapshot(document);
@@ -52,36 +69,34 @@ class _homescreen2State extends State<homescreen2> {
   void initState() {
     _fetchBooks();
     _fetchDonations();
+    _fetchNearme();
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
 
 // Widget build() and other code...
-}
-  Widget singleproducts(String? book_image,String? book_Name,String? price,String? status,String? book_auther)
-  {
-    return Container(
 
+  Widget singleproducts(BuildContext context,
+      String? book_image,
+      String? book_Name,
+      String? price,
+      String? status,
+      String? book_auther,) {
+    return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       height: 420,
       width: 160,
       decoration: BoxDecoration(
-        // color: Color(0xffffccff),
-        color:Colors.red,
-
+        color: Colors.red,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-              flex: 1,
-              child: Image.network("$book_image")),
+            flex: 1,
+            child: Image.network("$book_image"),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -94,8 +109,9 @@ class _homescreen2State extends State<homescreen2> {
                   Text(
                     "$book_Name",
                     style: TextStyle(
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     '$price RS',
@@ -117,11 +133,14 @@ class _homescreen2State extends State<homescreen2> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 5),
+                      horizontal: 15,
+                      vertical: 5,
+                    ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(80, 25),
-                          backgroundColor: Colors.white),
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.white,
+                      ),
                       child: const Text(
                         "Cart",
                         style: TextStyle(
@@ -135,110 +154,14 @@ class _homescreen2State extends State<homescreen2> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15, ),
+                      horizontal: 15,
+                    ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(80, 25),
-                          backgroundColor: Colors.purple),
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.purple,
+                      ),
                       child: const Text(
-                        "Details",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {// ya meri screen ha? nhi
-                        Navigator.pushNamed(context,ProductPage2.id);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
-  Widget singlegproductsfornearme(){
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      height: 480,
-      width: 160,
-      decoration: BoxDecoration(
-        color: Color(0xffffcccc),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network('https://media.takealot.com/covers_images/92ec803ee5994066a0fec7455520c122/s-zoom.file'),
-              )),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 5,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Humble Pi: A Comedy of Maths Errors',
-                    style: TextStyle(
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '1950 RS',
-                    style: TextStyle(
-                      color: Colors.purple,
-                    ),
-                  ),
-                  Text(
-                    'EXCHANGE',
-                    style: TextStyle(
-                      color: Colors.purple,
-                    ),
-                  ),
-                  Text(
-                    'Matt Parker',
-                    style: TextStyle(
-                      color: Colors.purple,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 5),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          fixedSize: Size(80, 25),
-                          backgroundColor: Colors.white),
-                      child: Text(
-                        "Cart",
-                        style: TextStyle(
-                          color: Colors.deepPurple,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, cart.id);
-
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          fixedSize: Size(80, 25),
-                          backgroundColor: Colors.purple),
-                      child: Text(
                         "Details",
                         style: TextStyle(
                           color: Colors.white,
@@ -246,7 +169,6 @@ class _homescreen2State extends State<homescreen2> {
                       ),
                       onPressed: () {
                         Navigator.pushNamed(context, ProductPage2.id);
-
                       },
                     ),
                   ),
@@ -257,28 +179,30 @@ class _homescreen2State extends State<homescreen2> {
         ],
       ),
     );
-
   }
 
-  Widget newdonatinsngos(String? image,String? ngo,String? num_of_books,String? status,String? catagory)
-  {
-    return Container(
 
+  Widget singleproductsfornearme(BuildContext context,
+      String? book_image,
+      String? book_Name,
+      String? price,
+      String? status,
+      String? book_auther,) {
+    return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       height: 420,
       width: 160,
       decoration: BoxDecoration(
-        // color: Color(0xffffccff),
-        color:Colors.red,
-
+        color: Colors.red,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-              flex: 1,
-              child: Image.network("$image")),
+            flex: 1,
+            child: Image.network("$book_image"),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -289,13 +213,14 @@ class _homescreen2State extends State<homescreen2> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "$ngo",
+                    "$book_Name",
                     style: TextStyle(
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
-                    '$num_of_books',
+                    '$price RS',
                     style: TextStyle(
                       color: Colors.purple,
                     ),
@@ -307,18 +232,21 @@ class _homescreen2State extends State<homescreen2> {
                     ),
                   ),
                   Text(
-                    '$catagory',
+                    '$book_auther',
                     style: TextStyle(
                       color: Colors.purple,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 5),
+                      horizontal: 15,
+                      vertical: 5,
+                    ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(80, 25),
-                          backgroundColor: Colors.white),
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.white,
+                      ),
                       child: const Text(
                         "Cart",
                         style: TextStyle(
@@ -332,19 +260,21 @@ class _homescreen2State extends State<homescreen2> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15, ),
+                      horizontal: 15,
+                    ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(80, 25),
-                          backgroundColor: Colors.purple),
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.purple,
+                      ),
                       child: const Text(
                         "Details",
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      onPressed: () {// ya meri screen ha? nhi
-                        Navigator.pushNamed(context,DonationScreenSteps.id);
+                      onPressed: () {
+                        Navigator.pushNamed(context, ProductPage2.id);
                       },
                     ),
                   ),
@@ -356,6 +286,109 @@ class _homescreen2State extends State<homescreen2> {
       ),
     );
   }
+
+
+  Widget newdonatinsngos(BuildContext context, String? image, String? nGO,
+      String? num_of_books, String? status, String? category) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      height: 420,
+      width: 160,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Image.network(image ?? ''),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    nGO ?? '',
+                    style: TextStyle(
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    num_of_books ?? '',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Text(
+                    status ?? '',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Text(
+                    category ?? '',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 5,
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        "Cart",
+                        style: TextStyle(
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, cart.id);
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.purple,
+                      ),
+                      child: const Text(
+                        "Details",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, DonationScreenSteps.id);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -640,7 +673,6 @@ class _homescreen2State extends State<homescreen2> {
                           color: Colors.deepPurpleAccent,
                         ),
                         onPressed: () {
-
                           // Handle filter button press
                         },
                       ),
@@ -652,7 +684,8 @@ class _homescreen2State extends State<homescreen2> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PriceFilter()),
+                            MaterialPageRoute(
+                                builder: (context) => PriceFilter()),
                           );
                           // Handle filter button press
                         },
@@ -662,7 +695,8 @@ class _homescreen2State extends State<homescreen2> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 10),
                 child: Column(
                   children: [
                     SizedBox(height: 16.0),
@@ -808,19 +842,26 @@ class _homescreen2State extends State<homescreen2> {
               ),
 
               Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Container(
-                  width: 30,
-                      height:40,
-                  child: ListView.builder(
-                    scrollDirection:Axis.horizontal,
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Container(
+                    width: 300,
+                    height: 500,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
                       itemCount: books.length,
-                      itemBuilder: (context,index){
-                        return singleproducts(books[index].book_image, books[index].book_Name ,books[index].price, books[index].status, books[index].book_author);
-
-                      }),
-                )
+                      itemBuilder: (BuildContext context, int index) {
+                        return singleproducts(
+                          context,
+                          books[index].book_image,
+                          books[index].book_Name,
+                          books[index].price,
+                          books[index].status,
+                          books[index].book_author,
+                        );
+                      },
+                    ),
+                  )
               ),
 
 
@@ -843,25 +884,26 @@ class _homescreen2State extends State<homescreen2> {
 
 
               Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-                      singleproductsfornearme(),
-
-                    ],
-                  ),
-                ),
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Container(
+                    width: 300,
+                    height: 500,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: nearme.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return singleproducts(
+                          context,
+                          nearme[index].book_image,
+                          nearme[index].book_Name,
+                          nearme[index].price,
+                          nearme[index].status,
+                          nearme[index].book_author,
+                        );
+                      },
+                    ),
+                  )
               ),
 
               Padding(
@@ -883,19 +925,26 @@ class _homescreen2State extends State<homescreen2> {
 
 
               Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Container(
-                  width: 30,
-                  height:40,
-                  child: ListView.builder(
-                      scrollDirection:Axis.horizontal,
-                      itemCount: donation.length,
-                      itemBuilder: (context,index){
-                        return newdonatinsngos(donation[index].donationbook_image, donation[index].nGO ,donation[index].num_of_books, donation[index].status, donation[index].catagory);
-
-                      }),
-                )
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Container(
+                    width: 300,
+                    height: 500,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: donations.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return newdonatinsngos(
+                          context,
+                          donations[index].donationbook_image,
+                          donations[index].num_of_books,
+                          donations[index].nGO,
+                          donations[index].status,
+                          donations[index].catagory,
+                        );
+                      },
+                    ),
+                  )
               ),
 
             ],
@@ -915,7 +964,6 @@ class _homescreen2State extends State<homescreen2> {
               ),
               onPressed: () {
                 Navigator.pushNamed(context, homescreen2.id);
-
               },
             ),
             IconButton(
@@ -933,7 +981,6 @@ class _homescreen2State extends State<homescreen2> {
               ),
               onPressed: () {
                 Navigator.pushNamed(context, cart.id);
-
               },
             ),
             IconButton(
@@ -943,7 +990,6 @@ class _homescreen2State extends State<homescreen2> {
               ),
               onPressed: () {
                 Navigator.pushNamed(context, favouritelist.id);
-
               },
             ),
           ],
@@ -954,7 +1000,6 @@ class _homescreen2State extends State<homescreen2> {
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.pushNamed(context, ProductListing.id);
-
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

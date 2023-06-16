@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CommentBox extends StatefulWidget {
@@ -55,7 +56,13 @@ class _CommentBoxState extends State<CommentBox> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: ()async {
+               var dd = await FirebaseFirestore.instance
+               .collection("Comment");
+               dd.doc().set({
+               "Comment": "added a comment here"
+
+                 });
                   // submit the comment
                   _textEditingController.clear();
                   _focusNode.unfocus();

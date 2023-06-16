@@ -1,4 +1,5 @@
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:book_bank/screens/homescreen/cart.dart';
 import 'package:book_bank/screens/homescreen/ProductListing.dart';
@@ -477,7 +478,14 @@ class _DonationScreenState extends State<DonationScreen> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                    var dd = await FirebaseFirestore.instance
+                    .collection("Donation");
+                     dd.doc().set({
+                       "name": "Name",
+                       "Email" : "Email",
+                       "Phone_number" :
+                     });
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ConfirmationScreen()),
@@ -618,7 +626,7 @@ class ConfirmationScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: ()async {
                       Navigator.pushNamed(context, homescreen2.id);
                       Text(
                         'Thanks for donating your textbooks. Your support is vital as it allows us to reach more underprivileged students in Pakistan in need of educational help. You will receive a confirmation notification soon.',
