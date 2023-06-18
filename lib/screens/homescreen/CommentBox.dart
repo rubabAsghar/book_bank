@@ -27,7 +27,7 @@ class _CommentBoxState extends State<CommentBox> {
         height: 20,
         width: 20,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -43,7 +43,8 @@ class _CommentBoxState extends State<CommentBox> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.purple.shade50,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     hintText: "Write a comment...",
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(2),
@@ -56,32 +57,27 @@ class _CommentBoxState extends State<CommentBox> {
                 ),
               ),
               GestureDetector(
-                onTap: ()async {
-               var dd = await FirebaseFirestore.instance
-               .collection("Comment");
-               dd.doc().set({
-               "Comment": "added a comment here"
-
-                 });
-                  // submit the comment
+                onTap: () async {
+                  await FirebaseFirestore.instance
+                      .collection("Comment")
+                      .add({"Comment": _textEditingController.text});
                   _textEditingController.clear();
                   _focusNode.unfocus();
                   setState(() {});
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Icon(Icons.send, color: _textEditingController.text.isEmpty ? Colors.purple : Colors.blue),
+                  child: Icon(Icons.send,
+                      color: _textEditingController.text.isEmpty
+                          ? Colors.purple
+                          : Colors.blue),
                 ),
               ),
               SizedBox(height: 20.0),
-
             ],
-
           ),
         ),
-
       ),
-
     );
   }
 }

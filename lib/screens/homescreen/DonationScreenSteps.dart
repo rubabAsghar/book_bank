@@ -15,8 +15,18 @@ class DonationScreen extends StatefulWidget {
 class _DonationScreenState extends State<DonationScreen> {
   int _currentStep = 0;
   TextEditingController _amountController = TextEditingController();
+  TextEditingController name=TextEditingController();
+  TextEditingController Email=TextEditingController();
+  TextEditingController phoneNumber=TextEditingController();
+  TextEditingController NIC=TextEditingController();
+  TextEditingController state=TextEditingController();
+  TextEditingController city=TextEditingController();
+  TextEditingController cityCode=TextEditingController();
+  TextEditingController date=TextEditingController();
+  TextEditingController time=TextEditingController();
 
   List<Step> _donationSteps() {
+
     List<Step> _steps = [
       Step(
         title: Text('Personal Details',
@@ -37,9 +47,10 @@ class _DonationScreenState extends State<DonationScreen> {
           ),
           padding: EdgeInsets.all(16),
           child: Column(
-            children: const [
+            children: [
 
               TextField(
+               controller: name,
                 decoration: InputDecoration(
                   labelText: 'Name',
                   prefixIcon: Icon(Icons.person, color: Colors.purpleAccent,),
@@ -48,6 +59,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               SizedBox(height: 16),
               TextField(
+                controller: Email,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.email, color: Colors.purpleAccent,),
@@ -56,6 +68,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               SizedBox(height: 16),
               TextField(
+                //controller: phoneNumber,
                 decoration: InputDecoration(
                   labelText: 'Phone number',
                   prefixIcon: Icon(Icons.phone_android_outlined, color: Colors.purpleAccent,),
@@ -64,6 +77,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               SizedBox(height: 16),
               TextField(
+               // controller: NIC,
                 decoration: InputDecoration(
                   labelText: 'NIC number',
                   prefixIcon: Icon(Icons.person, color: Colors.purpleAccent,),
@@ -138,6 +152,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 16),
               TextField(
+                controller: state,
                 decoration: InputDecoration(
                   labelText: 'No.of textbooks donating',
 
@@ -272,6 +287,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 16),
               TextField(
+               // controller: state,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter State",
@@ -282,6 +298,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 10),
               TextField(
+              //  controller: city,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter City",
@@ -293,6 +310,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 16),
               TextField(
+                //controller: cityCode,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter Pincode",
@@ -326,6 +344,7 @@ class _DonationScreenState extends State<DonationScreen> {
           child: Column(
             children: [
               TextFormField(
+                controller: date,
                 decoration: InputDecoration(
                   labelText: 'Select Date',
                   border: OutlineInputBorder(),
@@ -334,6 +353,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               SizedBox(height: 16.0),
               TextFormField(
+                controller: time,
                 decoration: InputDecoration(
                   labelText: 'Select Time',
                   border: OutlineInputBorder(),
@@ -479,13 +499,20 @@ class _DonationScreenState extends State<DonationScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                    var dd = await FirebaseFirestore.instance
-                    .collection("Donation");
-                     dd.doc().set({
-                       "name": "Name",
-                       "Email" : "Email",
-                       "Phone_number" :
-                     });
+    var dd = await FirebaseFirestore.instance
+        .collection("Donation");
+    dd.doc().set({
+             "Name": name.text,
+             "Email" : Email.text,
+             "Phone_number" :phoneNumber.text,
+             "NIC_number": NIC.text,
+             "State" : state.text,
+             "City" : city.text,
+             "city_PIN#" :cityCode.text,
+             "Pickup_timeime": time.text,
+             "Pickup_date" : date.text,
+
+    });
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ConfirmationScreen()),

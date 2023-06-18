@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,10 @@ import 'package:book_bank/screens/homescreen/favouritelist.dart';
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
 
 class Product {
+  
   final String name;
   final double price;
+
 
   Product({required this.name, required this.price});
 }
@@ -28,8 +29,22 @@ class _ProductListingState extends State<ProductListing> {
   ];
   Object? _institutionType;
   Object? selectedValue;
-  TextEditingController _controller=TextEditingController();
 
+  TextEditingController authorName=TextEditingController();
+  TextEditingController bookstate=TextEditingController();
+  TextEditingController ISBN=TextEditingController();
+  TextEditingController bookName=TextEditingController();
+  TextEditingController bookPublisher=TextEditingController();
+  TextEditingController bookPrice=TextEditingController();
+  TextEditingController bookCategory=TextEditingController();
+  TextEditingController istitute=TextEditingController();
+  TextEditingController language=TextEditingController();
+  TextEditingController condition=TextEditingController();
+  TextEditingController publicationDate=TextEditingController();
+  TextEditingController num_of_pages=TextEditingController();
+  TextEditingController book_type=TextEditingController();
+  TextEditingController quantity=TextEditingController();
+  TextEditingController SKU=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,7 +233,8 @@ class _ProductListingState extends State<ProductListing> {
                     Text(
                       "Book State",
                       style: TextStyle(
-                        fontSize: 24,
+
+                            fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -317,6 +333,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: bookName,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book name/title",
@@ -332,6 +349,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                        controller: ISBN,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book ISBN",
@@ -347,6 +365,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                        controller: authorName,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book author name",
@@ -362,6 +381,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: bookPublisher,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book publisher",
@@ -377,6 +397,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: bookPrice,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book price",
@@ -649,6 +670,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: istitute,
                       decoration: InputDecoration(
                         hintText: "Enter name",
                         filled: true,
@@ -1000,6 +1022,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: publicationDate,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "YYYY-MM-DD",
@@ -1015,6 +1038,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: num_of_pages,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter number of pages",
@@ -1030,6 +1054,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: book_type,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book type ",
@@ -1045,6 +1070,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: SKU,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book sku",
@@ -1060,6 +1086,7 @@ class _ProductListingState extends State<ProductListing> {
                     ),
                     SizedBox(height: 10),
                     TextField(
+                      controller: quantity,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Enter book quantity",
@@ -1243,20 +1270,21 @@ class _ProductListingState extends State<ProductListing> {
                         var dd = await FirebaseFirestore.instance
                             .collection("product_listing");
                         dd.doc().set({
-                          "Authr_name": "Book Author Name",
-                          "Book_state": "Book State",
-                          "ISBN" : "Book ISBN",
-                          "Book_name" : "Book Name/Title",
-                          "Publisher" : "Book Publisher",
-                          "Price" : "Book Price",
-                          "Catagory" : "Book Category",
-                          "Institution" : "Book Institution",
-                          "Language" : "Book Language",
-                          "Condition" : "Book Condition",
-                          "Publication_date": "Book Publication Date",
-                          "Num_of_pages" : "Number Of Pages",
-                          "Type" : "Book Type",
-                          "Quantity" : "Book Quantity"
+                          "Authr_name": authorName.text,
+                          "Book_state": bookstate.text,
+                          "ISBN" : ISBN.text,
+                          "Book_name" : bookName.text,
+                          "Publisher" : bookPublisher.text,
+                          "Price" : bookPrice.text,
+                          "Catagory" : bookCategory.text,
+                          "Institution" : istitute.text,
+                          "Language" : language.text,
+                          "Condition" : condition.text,
+                          "Publication_date": publicationDate.text,
+                          "Num_of_pages" : num_of_pages.text,
+                          "Type" : book_type.text,
+                          "Quantity" : quantity.text,
+                          "SKU" : SKU.text,
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -2488,25 +2516,6 @@ class _NewScreenState extends State<NewScreen> {
                       )),
                   ElevatedButton.icon(
                       onPressed: ()async{
-                        var dd = await FirebaseFirestore.instance
-                            .collection("product_listing");
-                        dd.doc().set({
-                         "Book_author" : "Book Author",
-                          "Book_name": "Book Name",
-                          "ISBN" : "Book ISBN",
-                          "State" : "Book State" ,
-                          "Publisher" : "Book Publisher",
-                          "price" : "Book Price",
-                          "Category" : "Book Catagory",
-                          "Institution" : "Book Institution",
-                          "Language" : "Book Language" ,
-                          "Condition" : "Book Condition",
-                          "Publication_date" : "Book Publication Date",
-                          "Number_Of_pages" : "Number of pages",
-                          "Type" : "Book Type",
-                          "Quantity" : "Book Quantity",
-
-                        });
 
                       },
                       style: ElevatedButton.styleFrom(

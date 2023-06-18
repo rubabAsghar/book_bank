@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:book_bank/screens/homescreen/cart.dart';
 import 'package:book_bank/screens/homescreen/favouritelist.dart';
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
+import '../../model/wishlist.dart';
 import 'ProductListing.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-
 class Product {
   String? name;
   String? state;
@@ -32,7 +32,13 @@ class Product {
   });
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+
   double getProportionalScreenWidth(BuildContext context, double percentage) {
     // Get the screen width using MediaQuery
     double screenWidth = MediaQuery.of(context).size.width;
@@ -40,7 +46,24 @@ class Body extends StatelessWidget {
     double proportionalWidth = screenWidth * percentage / 100;
     return proportionalWidth;
   }
+  List<WishList> wishList=[];
 
+  void _fetchwishlist() async {
+    final querySnapshot = await FirebaseFirestore.instance.collection('wishlist')
+        .get();
+
+    for (final document in querySnapshot.docs) {
+      final addList = WishList.fromSnapshot(document);
+      wishList.add(addList);
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    _fetchwishlist();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -64,7 +87,7 @@ class Body extends StatelessWidget {
         ),
         height: MediaQuery.of(context).size.height - 100,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: wishList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.symmetric(
@@ -139,7 +162,7 @@ class Body extends StatelessWidget {
                                   vertical: 5,
                                 ),
                                 child: Image.network(
-                                  'https://www.peterharrington.co.uk/blog/wp-content/uploads/2023/02/158632-Salinger-scaled.jpg',
+                                  wishList[index].book_image!,
                                 ),
                               ),
                             ),
@@ -157,7 +180,7 @@ class Body extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "The Catcher in the Rye",
+                                wishList[index].book_Name!,
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
@@ -166,7 +189,7 @@ class Body extends StatelessWidget {
                                 maxLines: 2,
                               ),
                               Text(
-                                "J.D. Salinger",
+                                wishList[index].book_author!,
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold,
@@ -1697,13 +1720,20 @@ class _NewScreenState extends State<NewScreen> {
                   ElevatedButton.icon(
                       onPressed: () async {
                         await FirebaseFirestore.instance.collection('wishlist').add({
-                          'name': newProduct.name,
-                          'state': newProduct.state,
-                          'isbn': newProduct.isbn,
-                          'category': newProduct.category,
-                          'author': newProduct.author,
-                          'publisher': newProduct.publisher,
-                          'price': newProduct.price
+                          "Book_author" : "Book Author",
+                          "Book_name": "Book Name",
+                          "ISBN" : "Book ISBN",
+                          "State" : "Book State" ,
+                          "Publisher" : "Book Publisher",
+                          "price" : "Book Price",
+                          "Category" : "Book Catagory",
+                          "Institution" : "Book Institution",
+                          "Language" : "Book Language" ,
+                          "Condition" : "Book Condition",
+                          "Publication_date" : "Book Publication Date",
+                          "Number_Of_pages" : "Number of pages",
+                          "Type" : "Book Type",
+                          "Quantity" : "Book Quantity",
                         });
                         Get.showSnackbar(Get.snackbar('Success', 'Wishlist added successfully!').snackbar);
                       },

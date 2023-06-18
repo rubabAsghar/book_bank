@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'CommentBox.dart';
@@ -367,7 +368,12 @@ class _ProductPageState extends State<ProductPage2> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: ()async {
+                var dd = await FirebaseFirestore.instance
+                  .collection("product_listing");
+                   dd.doc().set({
+                     "cart": " _",
+                   });
                     Navigator.pushNamed(context, cart.id);
 
                     setState(() {

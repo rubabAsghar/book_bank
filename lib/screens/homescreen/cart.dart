@@ -7,118 +7,138 @@ import 'package:book_bank/screens/homescreen/DonationScreenSteps.dart';
 import 'package:book_bank/screens/homescreen/favouritelist.dart';
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
 
+import '../../model/cart.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatelessWidget {
   double getProportionalScreenWidth(BuildContext context, double percentage) {
-    // Get the screen width using MediaQuery
     double screenWidth = MediaQuery.of(context).size.width;
-    // Calculate the proportional screen width based on the input percentage
     double proportionalWidth = screenWidth * percentage / 100;
     return proportionalWidth;
   }
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('cart').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
 
-    return Container(
-      height: MediaQuery.of(context).size.height - 200,
-      child: ListView.builder(
-        itemCount: 8,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-            child: Dismissible(
-              key: UniqueKey(),
-              background: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Color(0xFFffcce0),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        if (!snapshot.hasData) {
+          return Text('No data found');
+        }
+
+        final cartItems = snapshot.data!.docs;
+
+        return Container(
+          height: MediaQuery.of(context).size.height - 200,
+          child: ListView.builder(
+            itemCount: cartItems.length,
+            itemBuilder: (BuildContext context, int index) {
+              final cartItem = cartItems[index];
+
+              // Retrieve data from the cartItem document
+              final String title = cartItem['name'];
+              final double price = cartItem['price'];
+              final int quantity = cartItem['quantity'];
+              final String imageURL = cartItem['image'];
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+                child: Dismissible(
+                  key: UniqueKey(),
+                  background: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFffcce0),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      child: Row(
+                        children: [
+                          Spacer(),
+                          const Icon(Icons.delete),
+                        ],
+                      ),
+                    ),
+                  ),
                   child: Row(
                     children: [
-                      Spacer(),
-                      const Icon(Icons.delete),
-                    ],
-                  ),
-                ),
-              ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: getProportionalScreenWidth(context, 33),
-                    child: AspectRatio(
-                      aspectRatio: 0.88,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0XFFffe6e6),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
+                      SizedBox(
+                        width: getProportionalScreenWidth(context, 33),
+                        child: AspectRatio(
+                          aspectRatio: 0.88,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 3,
-                              vertical: 5,
-                            ),
-                            child: Image.network(
-                              'https://www.peterharrington.co.uk/blog/wp-content/uploads/2023/02/158632-Salinger-scaled.jpg',
+                            padding: const EdgeInsets.all(15),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0XFFffe6e6),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 3,
+                                  vertical: 5,
+                                ),
+                                child: Image.network(imageURL),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: getProportionalScreenWidth(context, 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "The Catcher in the Rye",
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple,
-                          ),
-                          maxLines: 2,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text.rich(
-                          TextSpan(
-                            text: "\$${1000.67}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.red,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "  x2",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.cyan,
-                                ),
+                      SizedBox(
+                        width: getProportionalScreenWidth(context, 40),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.purple,
                               ),
-                            ],
-                          ),
+                              maxLines: 2,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text.rich(
+                              TextSpan(
+                                text: '\$${price.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: '  x$quantity',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.cyan,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
-
 
 class cart extends StatelessWidget {
   static const String id = 'cart';

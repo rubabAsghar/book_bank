@@ -76,12 +76,134 @@ class _homescreen2State extends State<homescreen2> {
 
 // Widget build() and other code...
 
-  Widget singleproducts(BuildContext context,
+  Widget singleproducts(
+      BuildContext context,
+      String? bookImage,
+      String? bookName,
+      String? price,
+      String? status,
+      String? bookAuthor,
+      ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      height: 420,
+      width: 160,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Image.network("$bookImage"),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    "$bookName",
+                    style: TextStyle(
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '$price RS',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Text(
+                    '$status',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Text(
+                    '$bookAuthor',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 5,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(80, 25),
+                          backgroundColor: Colors.purple,
+                        ),
+                        child: const Text(
+                          "Add to Cart",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () async {
+                          // Store the item in the cart collection in Firebase Firestore
+                          await FirebaseFirestore.instance.collection("cart").add({
+                            "itemName": bookName,
+                            "price": price,
+                            // Add more fields as per your requirement
+                          });
+
+                          // Navigate to the cart screen or perform any other desired action
+                          Navigator.pushNamed(context, 'cart');
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(80, 25),
+                        backgroundColor: Colors.purple,
+                      ),
+                      child: const Text(
+                        "Details",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'ProductPage2');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget singleproductsfornearme(
+      BuildContext context,
       String? book_image,
       String? book_Name,
       String? price,
       String? status,
-      String? book_auther,) {
+      String? book_auther,
+      ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       height: 420,
@@ -142,13 +264,26 @@ class _homescreen2State extends State<homescreen2> {
                         backgroundColor: Colors.white,
                       ),
                       child: const Text(
-                        "Cart",
+                        "Add to Cart",
                         style: TextStyle(
                           color: Colors.deepPurple,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, cart.id);
+                      onPressed: () async {
+                        // Create a new document in the "cart" collection with the cart item data
+                        await FirebaseFirestore.instance.collection("cart").add({
+                          "itemName": book_Name,
+                          "price": price,
+                          // Add more fields as per your requirement
+                        });
+
+                        // Display a snackbar to indicate successful cart addition
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Item added to cart"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -168,7 +303,7 @@ class _homescreen2State extends State<homescreen2> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, ProductPage2.id);
+                        Navigator.pushNamed(context, 'ProductPage2');
                       },
                     ),
                   ),
@@ -181,115 +316,14 @@ class _homescreen2State extends State<homescreen2> {
     );
   }
 
-
-  Widget singleproductsfornearme(BuildContext context,
-      String? book_image,
-      String? book_Name,
-      String? price,
+  Widget newdonatinsngos(
+      BuildContext context,
+      String? image,
+      String? nGO,
+      String? num_of_books,
       String? status,
-      String? book_auther,) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      height: 420,
-      width: 160,
-      decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Image.network("$book_image"),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 5,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "$book_Name",
-                    style: TextStyle(
-                      color: Colors.purple,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    '$price RS',
-                    style: TextStyle(
-                      color: Colors.purple,
-                    ),
-                  ),
-                  Text(
-                    '$status',
-                    style: TextStyle(
-                      color: Colors.purple,
-                    ),
-                  ),
-                  Text(
-                    '$book_auther',
-                    style: TextStyle(
-                      color: Colors.purple,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 5,
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(80, 25),
-                        backgroundColor: Colors.white,
-                      ),
-                      child: const Text(
-                        "Cart",
-                        style: TextStyle(
-                          color: Colors.deepPurple,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, cart.id);
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(80, 25),
-                        backgroundColor: Colors.purple,
-                      ),
-                      child: const Text(
-                        "Details",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, ProductPage2.id);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
-  Widget newdonatinsngos(BuildContext context, String? image, String? nGO,
-      String? num_of_books, String? status, String? category) {
+      String? category,
+      ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       height: 420,
@@ -350,13 +384,26 @@ class _homescreen2State extends State<homescreen2> {
                         backgroundColor: Colors.white,
                       ),
                       child: const Text(
-                        "Cart",
+                        "Add to Cart",
                         style: TextStyle(
                           color: Colors.deepPurple,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, cart.id);
+                      onPressed: () async {
+                        // Create a new document in the "cart" collection with the cart item data
+                        await FirebaseFirestore.instance.collection("cart").add({
+                          "itemName": nGO,
+                          "price": num_of_books,
+                          // Add more fields as per your requirement
+                        });
+
+                        // Display a snackbar to indicate successful cart addition
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Item added to cart"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -376,7 +423,7 @@ class _homescreen2State extends State<homescreen2> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, DonationScreenSteps.id);
+                        Navigator.pushNamed(context, 'DonationScreenSteps');
                       },
                     ),
                   ),
@@ -388,7 +435,6 @@ class _homescreen2State extends State<homescreen2> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
