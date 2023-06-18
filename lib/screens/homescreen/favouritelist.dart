@@ -24,7 +24,7 @@ class _FavouriteListState extends State<FavouriteList> {
   List<FavList> favourite = [];
 
   void _fetchFavourite() async {
-    final querySnapshot = await FirebaseFirestore.instance.collection('Books')
+    final querySnapshot = await FirebaseFirestore.instance.collection('favorite')
         .get();
     List<FavList> favList = [];
     for (final document in querySnapshot.docs) {
@@ -43,10 +43,6 @@ class _FavouriteListState extends State<FavouriteList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // App bar configuration
-        // ...
-      ),
         body:ListView.builder(
           itemCount: favourite.length,
           itemBuilder: (context, index) {
@@ -74,6 +70,9 @@ class favouritelist extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Center(
+          child: Text('Favourite List'),
+        ),
         // App bar configuration
         // ...
       ),

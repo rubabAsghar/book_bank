@@ -158,6 +158,8 @@ class _homescreen2State extends State<homescreen2> {
                           await FirebaseFirestore.instance.collection("cart").add({
                             "itemName": bookName,
                             "price": price,
+                            "image" :bookImage,
+
                             // Add more fields as per your requirement
                           });
 

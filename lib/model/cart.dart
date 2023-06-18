@@ -21,10 +21,10 @@ class Cart {
     final data = snapshot.data() as Map<String, dynamic>;
 
     return Cart(
-      book_image:data ['Book_image'],
-      book_Name: data['Book_name'],
+      book_image:data ['image'],
+      book_Name: data['itemName'],
       quantity:data['quantity'] ,
-      price:data ['Price'],
+      price:data ['price'],
 
 
     );

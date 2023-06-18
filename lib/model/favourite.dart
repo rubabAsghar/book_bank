@@ -6,9 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FavList{
 
-  String? book_image;
-  String? book_Name;
-  String? author;
+  final String? book_Name;
+  final String? author;
+  final String? book_image;
 
   FavList(
       {this.book_image,

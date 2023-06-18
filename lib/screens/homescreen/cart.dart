@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatelessWidget {
+
   double getProportionalScreenWidth(BuildContext context, double percentage) {
     double screenWidth = MediaQuery.of(context).size.width;
     double proportionalWidth = screenWidth * percentage / 100;
@@ -41,9 +42,8 @@ class Body extends StatelessWidget {
               final cartItem = cartItems[index];
 
               // Retrieve data from the cartItem document
-              final String title = cartItem['name'];
-              final double price = cartItem['price'];
-              final int quantity = cartItem['quantity'];
+              final String title = cartItem['itemName'];
+              final String price = cartItem['price'];
               final String imageURL = cartItem['image'];
 
               return Padding(
@@ -109,20 +109,11 @@ class Body extends StatelessWidget {
                             ),
                             Text.rich(
                               TextSpan(
-                                text: '\$${price.toStringAsFixed(2)}',
+                                text: '\$${price}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.red,
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: '  x$quantity',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.cyan,
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
                           ],

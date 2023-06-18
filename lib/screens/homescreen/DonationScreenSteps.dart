@@ -1,5 +1,6 @@
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:book_bank/screens/homescreen/cart.dart';
 import 'package:book_bank/screens/homescreen/ProductListing.dart';
@@ -68,7 +69,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               SizedBox(height: 16),
               TextField(
-                //controller: phoneNumber,
+                controller: phoneNumber,
                 decoration: InputDecoration(
                   labelText: 'Phone number',
                   prefixIcon: Icon(Icons.phone_android_outlined, color: Colors.purpleAccent,),
@@ -77,7 +78,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               SizedBox(height: 16),
               TextField(
-               // controller: NIC,
+               controller: NIC,
                 decoration: InputDecoration(
                   labelText: 'NIC number',
                   prefixIcon: Icon(Icons.person, color: Colors.purpleAccent,),
@@ -131,7 +132,7 @@ class _DonationScreenState extends State<DonationScreen> {
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.add_a_photo_outlined,
                         color: Colors.purple,
@@ -272,7 +273,7 @@ class _DonationScreenState extends State<DonationScreen> {
           ),
           padding: EdgeInsets.all(16),
           child: Column(
-            children: const [
+            children:  [
               SizedBox(height: 16),
               TextField(
                 decoration: InputDecoration(
@@ -287,7 +288,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 16),
               TextField(
-               // controller: state,
+                controller: state,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter State",
@@ -298,7 +299,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 10),
               TextField(
-              //  controller: city,
+               controller: city,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter City",
@@ -310,7 +311,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               SizedBox(height: 16),
               TextField(
-                //controller: cityCode,
+                controller: cityCode,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter Pincode",
@@ -500,7 +501,7 @@ class _DonationScreenState extends State<DonationScreen> {
                       ElevatedButton(
                         onPressed: () async {
     var dd = await FirebaseFirestore.instance
-        .collection("Donation");
+        .collection("Donation ");
     dd.doc().set({
              "Name": name.text,
              "Email" : Email.text,
@@ -639,7 +640,7 @@ class ConfirmationScreen extends StatelessWidget {
                   Image.network('https://cdn.pixabay.com/photo/2012/05/07/02/13/accept-47587__340.png'),
                   SizedBox(height: 16),
                   Text(
-                    'Thank you, Ghilman',
+                    'Thank you,$defaultFirebaseAppName.Name',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.purple),
                   ),
                   SizedBox(height: 16),
