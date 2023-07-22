@@ -1,4 +1,5 @@
 import 'package:book_bank/firebase/auth.dart';
+import 'package:book_bank/screens/homescreen/ForgotPasswordScreen.dart';
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
 import 'package:book_bank/view/main_screen/main_screen.dart';
 import 'package:book_bank/view/sign_up_screen/sign_up_screen.dart';
@@ -15,7 +16,11 @@ import 'package:flutter/material.dart';
 import '../../components/widgets/btextfield.dart';
 import '../../components/widgets/loading_indicator.dart';
 
+
+
 class LoginScreen extends StatefulWidget {
+  static const String id = 'LoginScreen';
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -41,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -88,8 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(top: width * 0.04),
                         child: InkWell(
                             onTap: () => setState(() {
-                                  obscureText = obscureText ? false : true;
-                                }),
+                              obscureText = obscureText ? false : true;
+                            }),
                             child: FaIcon(obscureText
                                 ? FontAwesomeIcons.eye
                                 : FontAwesomeIcons.eyeSlash)),
@@ -99,26 +105,49 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: width * 0.06,
                     ),
                     //BTextField(controller: controller, hintText: "pass @11", labelText: "Password"),
-                    const Text(
-                      "Forget Password?",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(color: appThemeColor),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigation logic to route to 'ForgotPasswordScreen'
+                          Get.offAllNamed(ForgotPasswordScreen.id);
+                        },
+                        child: Text(
+                          "Forget Password?",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: Colors.purpleAccent,
+                            fontFamily: "Arial",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: width * 0.1,
                     ),
                     ElevatedButton(
-                        onPressed: () {
+                      onPressed: () {
+                        Auth.login(email: email.text, password: password.text, width: width,setLoading:  (bool value){setState(() {isLoading=value;});});
+                      },
+                      child: const Text(
+                        "Login Now",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.purple,
+                        onPrimary: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                          vertical: width * 0.03,
+                          horizontal: width * 0.04,
+                        ),
+                        shadowColor: Colors.purple[200],
+                        elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
 
-                          // Navigator.pushNamed(context, homescreen2.id);
-                         Get.offAllNamed(homescreen2.id);
-                            // Auth.login(email: email.text, password: password.text, width: width,setLoading:  (bool value){setState(() {isLoading=value;});
-                            // if(!isLoading){
-                            //     Navigator.pushNamed(context, homescreen2.id);}
-                            //
-                            // });
-                        },
-                        child: const Text("Login Now")),
                     SizedBox(
                       height: width * 0.1,
                     ),
@@ -128,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text(
                           "Create an Account?",
                           textAlign: TextAlign.right,
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Colors.purpleAccent),
                         ),
                         InkWell(
                           onTap: () => Get.to(const SignUpScreen()),
@@ -136,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             " SignUp",
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.purple,
                                 decoration: TextDecoration.underline),
                           ),
                         ),

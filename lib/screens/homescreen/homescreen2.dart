@@ -1,7 +1,11 @@
 
 
+import 'package:book_bank/screens/chatscreen/MessageListScreen.dart';
+import 'package:book_bank/screens/homescreen/ProductScreen.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/Contactus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:book_bank/screens/homescreen/homescreendrawer/dashboard.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/drawerSettings.dart';
 import 'package:book_bank/screens/homescreen/cart.dart';
 import 'package:book_bank/screens/homescreen/ProductListing.dart';
 import 'package:book_bank/screens/homescreen/DonationScreenSteps.dart';
@@ -523,14 +527,17 @@ class _homescreen2State extends State<homescreen2> {
             ListTile(
               leading: Icon(Icons.settings, color: Colors.purple),
               title: Text(
-                'Settings',
+                'Settings', // drawerSettings
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                   color: Colors.purpleAccent,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, drawerSettings.id);
+
+              },
             ),
             ListTile(
               leading: Icon(Icons.dashboard, color: Colors.purple),
@@ -542,7 +549,10 @@ class _homescreen2State extends State<homescreen2> {
                   color: Colors.purpleAccent,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, dashboard.id);
+
+              },
             ),
             ListTile(
               leading: Icon(Icons.history, color: Colors.purple),
@@ -590,7 +600,11 @@ class _homescreen2State extends State<homescreen2> {
                   color: Colors.purpleAccent,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+
+                Navigator.pushNamed(context, ProductScreen.id);
+
+              },
             ),
             ListTile(
               leading: Icon(Icons.subscriptions, color: Colors.purple),
@@ -616,7 +630,11 @@ class _homescreen2State extends State<homescreen2> {
                   color: Colors.purpleAccent,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                //ContactUsScreen
+                Navigator.pushNamed(context, ContactUsScreen.id);
+
+              },
             ),
           ],
         ),
@@ -2112,7 +2130,10 @@ class _PriceFilterState extends State<PriceFilter> {
                 Icons.chat,
                 color: Colors.purple,
               ),
-              onPressed: () {},
+              onPressed: () {
+
+                Navigator.pushNamed(context, MessageListScreen.id);
+              },
             ),
             SizedBox(width: 32),
             IconButton(

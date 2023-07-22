@@ -1,13 +1,22 @@
 import 'package:book_bank/components/constant/constant.dart';
 import 'package:book_bank/generated/assets.dart';
+import 'package:book_bank/screens/chatscreen/ChatScreen.dart';
+import 'package:book_bank/screens/chatscreen/MessageListScreen.dart';
 import 'package:book_bank/screens/homescreen/CheckoutScreen.dart';
 import 'package:book_bank/screens/homescreen/DonationScreenSteps.dart';
+import 'package:book_bank/screens/homescreen/ForgotPasswordScreen.dart';
 import 'package:book_bank/screens/homescreen/ProductListing.dart';
 import 'package:book_bank/screens/homescreen/ProductPage2.dart';
+import 'package:book_bank/screens/homescreen/ProductScreen.dart';
 import 'package:book_bank/screens/homescreen/WishlistScreen.dart';
 import 'package:book_bank/screens/homescreen/favouritelist.dart';
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/Contactus.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/Customers.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/PurchaseHistoryScreen.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/dashboard.dart';
 import 'package:book_bank/view/get_start_screen/get_start_screen.dart';
+import 'package:book_bank/view/login_screen/login_screen.dart';
 import 'package:book_bank/view/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +24,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 import 'package:book_bank/screens/homescreen/cart.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/drawerSettings.dart';
 
 
 
@@ -59,6 +69,39 @@ class MyApp extends StatelessWidget {
          favouritelist.id: (context)=>  favouritelist(),
           WishlistScreen.id: (context)=>  WishlistScreen(),
           CheckoutScreen.id: (context)=>  CheckoutScreen(),
+
+
+
+
+        MessageListScreen.id: (context) => MessageListScreen(),
+        ChatScreen.id: (context) => ChatScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
+
+        SettingsScreen.id: (context) => SettingsScreen(),
+        MessageRequestsScreen.id: (context) => MessageRequestsScreen(),
+        ArchivedChatsScreen.id: (context) => ArchivedChatsScreen(),
+        ForgotPasswordScreen.id: (context) => ForgotPasswordScreen(),
+
+        LoginScreen.id: (context) => LoginScreen(),
+        //SettingsScreen
+        drawerSettings.id: (context) => drawerSettings(),
+        //dashboard
+        dashboard.id: (context) => dashboard(),
+        CustomerDetailsScreen.id: (context) => CustomerDetailsScreen(customerName: '', orderCount: 0, amount: 0,customerLocation: '',),
+
+        //ProductScreen
+        //PurchaseHistoryScreen
+        Customers.id: (context) => Customers(),
+        ProductScreen.id: (context) => ProductScreen(),
+        PurchaseHistoryScreen.id: (context) => PurchaseHistoryScreen(),
+        // ContactUsScreen
+        ContactUsScreen.id: (context) => ContactUsScreen(),
+
+
+
+
+
+
       },
 
 
