@@ -136,7 +136,7 @@ class MessageItem extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(
-                        'https://upload.wikimedia.org/wikipedia/commons/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg'),
+                        'https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2023/02/google-maps-2961754.jpg'), // Replace with your image
                     radius: 25.0,
                   ),
                   if (isOnline)
@@ -450,5 +450,3 @@ class ArchivedChatsScreen extends StatelessWidget {
     );
   }
 }
-
-

@@ -11,8 +11,8 @@ import '../../model/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Body extends StatelessWidget {
 
+class Body extends StatelessWidget {
   double getProportionalScreenWidth(BuildContext context, double percentage) {
     double screenWidth = MediaQuery.of(context).size.width;
     double proportionalWidth = screenWidth * percentage / 100;
@@ -40,11 +40,17 @@ class Body extends StatelessWidget {
             itemCount: cartItems.length,
             itemBuilder: (BuildContext context, int index) {
               final cartItem = cartItems[index];
+              final Map<String, dynamic>? data = cartItem.data() as Map<String, dynamic>?;
+
+              // Check if the cartItem has the required fields
+              if (data == null || !data.containsKey('itemName') || !data.containsKey('price') || !data.containsKey('image')) {
+                return Container(); // Or any placeholder widget to handle missing data
+              }
 
               // Retrieve data from the cartItem document
-              final String title = cartItem['itemName'];
-              final String price = cartItem['price'];
-              final String imageURL = cartItem['image'];
+              final String title = data['itemName'];
+              final String price = data['price'];
+              final String imageURL = data['image'];
 
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
@@ -130,6 +136,7 @@ class Body extends StatelessWidget {
     );
   }
 }
+
 
 class cart extends StatelessWidget {
   static const String id = 'cart';

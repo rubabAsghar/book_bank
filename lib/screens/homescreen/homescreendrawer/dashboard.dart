@@ -1174,10 +1174,7 @@ class _dashboardState extends State<dashboard> {
                 Icons.chat,
                 color: Colors.purple,
               ),
-              onPressed: () {
-                // cart
-                Navigator.pushNamed(context, cart.id);
-              },
+              onPressed: () {},
             ),
             SizedBox(width: 32),
             IconButton(
