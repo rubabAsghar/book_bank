@@ -13,6 +13,7 @@ import 'package:book_bank/screens/homescreen/favouritelist.dart';
 import 'package:book_bank/screens/homescreen/homescreen2.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/Contactus.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/Customers.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/DonateNowScreen.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/PurchaseHistoryScreen.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/dashboard.dart';
 import 'package:book_bank/view/get_start_screen/get_start_screen.dart';
@@ -96,7 +97,8 @@ class MyApp extends StatelessWidget {
         PurchaseHistoryScreen.id: (context) => PurchaseHistoryScreen(),
         // ContactUsScreen
         ContactUsScreen.id: (context) => ContactUsScreen(),
-
+        //DonateNowScreen
+        DonateNowScreen.id: (context) => DonateNowScreen(),
 
 
 

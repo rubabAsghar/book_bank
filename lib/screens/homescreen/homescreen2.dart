@@ -3,6 +3,7 @@
 import 'package:book_bank/screens/chatscreen/MessageListScreen.dart';
 import 'package:book_bank/screens/homescreen/ProductScreen.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/Contactus.dart';
+import 'package:book_bank/screens/homescreen/homescreendrawer/DonateNowScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/dashboard.dart';
 import 'package:book_bank/screens/homescreen/homescreendrawer/drawerSettings.dart';
@@ -390,7 +391,7 @@ class _homescreen2State extends State<homescreen2> {
                         backgroundColor: Colors.white,
                       ),
                       child: const Text(
-                        "Add to Cart",
+                        "Details",
                         style: TextStyle(
                           color: Colors.deepPurple,
                         ),
@@ -423,7 +424,7 @@ class _homescreen2State extends State<homescreen2> {
                         backgroundColor: Colors.purple,
                       ),
                       child: const Text(
-                        "Details",
+                        "Donate",
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -557,27 +558,19 @@ class _homescreen2State extends State<homescreen2> {
             ListTile(
               leading: Icon(Icons.history, color: Colors.purple),
               title: Text(
-                'Donation history',
+                'Donation Now',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                   color: Colors.purpleAccent,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, DonateNowScreen.id);
+
+              },
             ),
-            ListTile(
-              leading: Icon(Icons.join_full, color: Colors.purple),
-              title: Text(
-                'Projects joined',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.purpleAccent,
-                ),
-              ),
-              onTap: () {},
-            ),
+
             ListTile(
               leading: Icon(Icons.payment, color: Colors.purple),
               title: Text(
